@@ -1,0 +1,135 @@
+ /**
+     * Removes the first element that matches the specified target
+     * element from the binary search tree and returns a reference to
+     * it.  Throws a ElementNotFoundException if the specified target
+     * element is not found in the binary search tree.
+     *
+     * @param targetElement the element being sought in the binary search tree
+     * @throws ElementNotFoundException if the target element is not found
+     */
+    public T removeElement(T targetElement)
+                                  throws ElementNotFoundException 
+    {
+        T result = null;
+
+        if (isEmpty())
+            throw new ElementNotFoundException("LinkedBinarySearchTree");
+        else
+        {
+            BinaryTreeNode<T> parent = null;
+            if (((Comparable<T>)targetElement).equals(root.element)) 
+            {
+                result =  root.element;
+                BinaryTreeNode<T> temp = replacement(root);
+                if (temp == null)
+                    root = null;
+                else 
+                {
+                    root.element = temp.element;
+                    root.setRight(temp.right);
+                    root.setLeft(temp.left);
+                }
+
+                modCount--;
+            }
+            else 
+            {                
+                parent = root;
+                if (((Comparable)targetElement).compareTo(root.element) < 0)
+                    result = removeElement(targetElement, root.getLeft(), parent);
+                else
+                    result = removeElement(targetElement, root.getRight(), parent);
+            }
+        }
+        
+        return result;
+    }
+                
+    /**
+     * Removes the first element that matches the specified target
+     * element from the binary search tree and returns a reference to
+     * it.  Throws a ElementNotFoundException if the specified target
+     * element is not found in the binary search tree.
+     *
+     * @param targetElement the element being sought in the binary search tree
+     * @param node the node from which to search
+     * @param parent the parent of the node from which to search
+     * @throws ElementNotFoundException if the target element is not found
+     */
+    private T removeElement(T targetElement, BinaryTreeNode<T> node, BinaryTreeNode<T> parent)
+    throws ElementNotFoundException 
+    {
+        T result = null;
+        
+        if (node == null)
+            throw new ElementNotFoundException("LinkedBinarySearchTree");
+        else
+        {
+            if (((Comparable<T>)targetElement).equals(node.element)) 
+            {
+                result =  node.element;
+                BinaryTreeNode<T> temp = replacement(node);
+                if (parent.right == node)
+                    parent.right = temp;
+                else 
+                    parent.left = temp;
+
+                modCount--;
+            }
+            else 
+            {                
+                parent = node;
+                if (((Comparable)targetElement).compareTo(node.element) < 0)
+                    result = removeElement(targetElement, node.getLeft(), parent);
+                else
+                    result = removeElement(targetElement, node.getRight(), parent);
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Returns a reference to a node that will replace the one
+     * specified for removal.  In the case where the removed node has 
+     * two children, the inorder successor is used as its replacement.
+     *
+     * @param node the node to be removed
+     * @return a reference to the replacing node
+     */
+    private BinaryTreeNode<T> replacement(BinaryTreeNode<T> node) 
+    {
+        BinaryTreeNode<T> result = null;
+        
+        if ((node.left == null) && (node.right == null))
+            result = null;
+        
+        else if ((node.left != null) && (node.right == null))
+            result = node.left;
+        
+        else if ((node.left == null) && (node.right != null))
+            result = node.right;
+        
+        else
+        {
+            BinaryTreeNode<T> current = node.right;
+            BinaryTreeNode<T> parent = node;
+            
+            while (current.left != null)
+            {
+                parent = current;
+                current = current.left;
+            }
+            
+            current.left = node.left;
+            if (node.right != current)
+            {
+                parent.left = current.right;
+                current.right = node.right;
+            }
+            
+            result = current;
+        }
+        
+        return result;
+    }
