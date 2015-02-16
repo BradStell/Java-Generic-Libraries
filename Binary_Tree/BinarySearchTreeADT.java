@@ -2,6 +2,8 @@
 * Interface:
 *   Binary Search Tree of generic data type T
 *
+* Adds Methods necessary for a search tree 
+*
 * Extends: 
 *   BinaryTreeADT<T> 
 */
