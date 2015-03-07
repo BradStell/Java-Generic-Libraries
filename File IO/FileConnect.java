@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.File;
+import java.util.Scanner;
 
 
 /**
@@ -51,8 +53,7 @@ public class FileConnect {
 
 		/* File and Buffer Reader */
 		FileReader fr;
-		BufferedReader br = null;	
-		
+		BufferedReader br = null;		
 		
 		try {			
 
@@ -68,7 +69,6 @@ public class FileConnect {
 		} 
 		
 		return br;
-
 	}
 
     /**
