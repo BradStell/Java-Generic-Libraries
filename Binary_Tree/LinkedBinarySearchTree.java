@@ -27,7 +27,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
 						placed = true;
 					}
 					else 
-						current = current.left;				
+						current = current.left;			
 				}
 				else {
 					if (current.right == null) {
